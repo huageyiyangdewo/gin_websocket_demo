@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="04ecc1b5-f6be-4449-a2af-b03e1abf5d8b" name="gin-websokcet-demo">
+        <fileTransfer accessType="SFTP" host="192.168.170.66" port="22" sshConfigId="0839f756-5948-4c95-b930-acb6df230dce" sshConfig="root@192.168.170.66:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

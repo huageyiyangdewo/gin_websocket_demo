@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql/mysql-server:8.0.28
+    container_name: mysql
+    environment:
+      # 上海
+      TZ: Asia/shanghai
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - 33306:3306
+    volumes:
+      - ./data/mysql/data:/var/lib/mysql
+    command:
+      # 将mysql8.0的默认密码策略修改为原来的策略（mysql8.0对其默认策略做了更改，会导致密码无法匹配）
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    privileged: true
+    restart: always
+    networks:
+      - gin_websocket_demo_net
+
+  redis:
+    image: redis:7.0.3
+    container_name: redis
+    ports:
+      - 36379:6379
+    environment:
+      # 上海
+      TZ: Asia/shanghai
+    volumes:
+      - ./data/redis/data:/data:rw
+    command: "redis-server --requirepass 123456"
+    privileged: true
+    restart: always
+    networks:
+      - gin_websocket_demo_net
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    container_name: mongodb
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/data/logs
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+    volumes:
+      - ./data/mongodb/data:/data/db
+      - ./data/mongodb/logs:/data/logs
+    ports:
+      - 27017:27017
+    networks:
+      - gin_websocket_demo_net
+
+networks:
+  gin_websocket_demo_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
